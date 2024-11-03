@@ -1,0 +1,33 @@
+import random
+
+def generate_cpf(formatted=True):
+    # Gera os primeiros 9 dígitos aleatórios
+    cpf_base = [random.randint(0, 9) for _ in range(9)]
+    
+    # Calcula o primeiro dígito verificador
+    sum_1 = sum((cpf_base[i] * (10 - i) for i in range(9)))
+    digit_1 = (sum_1 * 10 % 11) % 10
+    
+    # Adiciona o primeiro dígito verificador
+    cpf_base.append(digit_1)
+    
+    # Calcula o segundo dígito verificador
+    sum_2 = sum((cpf_base[i] * (11 - i) for i in range(10)))
+    digit_2 = (sum_2 * 10 % 11) % 10
+    
+    # Adiciona o segundo dígito verificador
+    cpf_base.append(digit_2)
+    
+    # Formata o CPF com pontos e hífen se formatted=True
+    if formatted:
+        return "{}.{}.{}-{}".format(
+            ''.join(map(str, cpf_base[:3])),
+            ''.join(map(str, cpf_base[3:6])),
+            ''.join(map(str, cpf_base[6:9])),
+            ''.join(map(str, cpf_base[9:]))
+        )
+    else:
+        return ''.join(map(str, cpf_base))
+
+# Testa a geração de um CPF
+print("CPF gerado:", generate_cpf())
